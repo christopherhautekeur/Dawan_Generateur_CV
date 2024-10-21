@@ -1,4 +1,4 @@
-# CV Generator & Job Matching Tool
+# CV Generator
 
 **Dawan CV Generator** est une application web qui permet de générer des CV et des lettres de motivation personnalisées en fonction des offres d'emploi spécifiques. Elle propose également une fonctionnalité de regroupement des offres d'emploi par localisation tout en filtrant les offres d'alternance non pertinentes.
 
