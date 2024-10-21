@@ -1,0 +1,1 @@
+# Fichier pour les fonctions utilitaires (à voir si un fichier suffit)
