@@ -2,7 +2,6 @@ import streamlit as st
 
 
 class PageCreator:
-
     def __init__(self, pageTitle="", stTitle="", sidebarHeader="", sideBarDescription=""):
         self.pageTitle = pageTitle
         self.stTitle = stTitle
@@ -11,6 +10,9 @@ class PageCreator:
 
         if 'step' not in st.session_state:
             st.session_state.step = 0
+
+        if 'button_pressed' not in st.session_state:
+            st.session_state.button_pressed = False
 
         self.create_page()
 
@@ -45,65 +47,48 @@ class PageCreator:
         Paramètres :
         - fields (dict) : Un dictionnaire contenant les champs du tutoriel.
         """
-        # Titre
-        st.subheader(f"{self.stTitle} - Tutoriel")
-
         # Barre de progression
         progress = st.progress(0)
-        st.write(len(fields))
 
-        with st.container():
-            # Première étape
-            if st.session_state.step == 0:
-                    col1, col2, col3, col4, col5, col6 = st.columns(6)
-                    with col1:
-                        if st.button("Passer le tutoriel", id("skip_tutorial")):
-                            st.session_state.step = len(fields) + 1
-                    with col6:
-                        if st.button("Commencer le tutoriel"):
-                            next_step()
-                            progress.progress((st.session_state.step) / (len(fields)))  # Met à jour la jauge
-                            st.sidebar.write(st.session_state.step)
+        # Première étape
+        if st.session_state.step == 0:
+            col1, col2, col3, col4, col5, col6 = st.columns(6)
+            with col1:
+                if st.button("Passer le tutoriel", id("skip_tutorial")):
+                    st.page_link("http://www.google.com", label="Google", icon="🌎")
 
-        with st.container():
-            # Les autres étapes
-            if len(fields) > st.session_state.step > 0:
-                    display_texts(fields)
-                    col1, col2, col3, col4, col5, col6 = st.columns(6)
-                    with col1:
-                        if st.button("Étape précédente", id("previous_step")):
-                            previous_step()
-                            display_step(progress, fields)
-                            st.sidebar.write(st.session_state.step)
+            with col6:
+                if st.button("Commencer le tutoriel", id("start_tutorial")):
+                    next_step()
+                    progress.progress((st.session_state.step) / (len(fields)))  # Met à jour la jauge
+                    st.sidebar.write(st.session_state.step)
+                    st.session_state.button_pressed = True
 
-                    with col6:
-                        if st.session_state.step == len(fields):
-                            if st.button("Fin du tutoriel", id("end_step")):
-                                with st.container():
-                                    st.subheader("")
+        # Les autres étapes
+        if 0 < st.session_state.step:
+            col1, col2, col3, col4, col5, col6 = st.columns(6)
+            with col1:
+                if st.button("Étape précédente", id("previous_step")):
+                    previous_step()
+                    st.session_state.button_pressed = True
 
-                        else:
-                            if st.button("Étape suivante", id("next_step")):
-                                next_step()
-                                display_step(progress, fields)
-                                st.sidebar.write(st.session_state.step)
-        # with st.container():
-        #     # Dernière étape
-        #     if st.session_state.step == len(fields) + 1:
-        #         st.write("Tutoriel terminé !")
-        #
-        #         col1, col2, col3, col4, col5 = st.columns(5)
-        #         with col1:
-        #             # Réinitialisation du tutoriel
-        #             if st.button("Recommencer le tutoriel", id("reset_tutorial")):
-        #                 reset_tutorial()
-        #                 display_step(progress, fields)
-        #
-        #         with col5:
-        #             # Bouton pour quitter le tutoriel
-        #             if st.button("Quitter le tutoriel", id("exit_tutorial")):
-        #                 with st.container():
-        #                     st.empty()
+            with col6:
+                if st.session_state.step != len(fields):
+                    if st.button("Étape suivante", id("next_step")):
+                        next_step()
+                        st.session_state.button_pressed = True
+
+                else:
+                    st.session_state.button_pressed = True
+                    if st.button("Fin du tutoriel", id("end_tutorial")):
+                        return
+                display_step(progress, fields)
+
+            if st.session_state.button_pressed is True:
+                if st.session_state.step != 0:
+                    display_texts(fields, add_step=-1)
+                    st.sidebar.write(st.session_state.step)
+                    st.session_state.button_pressed = False
 
 
 def next_step():
@@ -132,6 +117,12 @@ def display_step(progress, fields, add_step=0):
     st.write(f"Étape {st.session_state.step + add_step} sur {len(fields)}")  # Affiche les étapes
 
 
-def display_texts(fields):
-    st.header(list(fields.keys())[st.session_state.step])
-    st.write(list(fields.values())[st.session_state.step])
+def display_texts(fields, add_step=0):
+    st.header(list(fields.keys())[st.session_state.step + add_step])
+    for line in list(fields.values())[st.session_state.step + add_step]:
+        if line.startswith("img¤"):
+            st.image(line[4:])
+        if line.startswith("code¤"):
+            st.code(line[5:])
+        else:
+            st.write(line)
