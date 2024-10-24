@@ -1,5 +1,8 @@
 beautifulsoup4==4.12.3
+extra_streamlit_components==0.1.71
+nltk==3.9.1
+openai==1.52.2
 pypdf==5.0.1
+selenium==4.25.0
 streamlit==1.39.0
 streamlit_pdf_viewer==0.0.18
-extra_streamlit_components==0.1.71
