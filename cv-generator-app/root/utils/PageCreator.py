@@ -2,12 +2,17 @@ import streamlit as st
 
 
 class PageCreator:
-
     def __init__(self, pageTitle="", stTitle="", sidebarHeader="", sideBarDescription=""):
         self.pageTitle = pageTitle
         self.stTitle = stTitle
         self.sidebarHeader = sidebarHeader
         self.sideBarDescription = sideBarDescription
+
+        if 'step' not in st.session_state:
+            st.session_state.step = 0
+
+        if 'button_pressed' not in st.session_state:
+            st.session_state.button_pressed = False
 
         self.create_page()
 
@@ -27,9 +32,9 @@ class PageCreator:
             layout="centered",
             initial_sidebar_state="auto",
         )
-
-        # Titre
-        st.title(self.stTitle)
+        with st.container():
+            # Titre
+            st.title(self.stTitle)
 
         # Sidebar
         st.sidebar.header(self.sidebarHeader)
