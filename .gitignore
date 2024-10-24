@@ -2,5 +2,5 @@
 .idea/
 .vscode/
 *.log
-.cv-generator-app/root/utils/__pycache__
+cv-generator-app/root/utils/__pycache__
 cv-generator-app/config
