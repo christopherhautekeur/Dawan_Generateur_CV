@@ -22,7 +22,7 @@ class Processing:
         """
         infos = self.tokenize(infos)
 
-        response = client.chat.completions.create(
+        response = self.client.chat.completions.create(
             model="gpt-3.5-turbo-0125",
             messages=[
                 {
