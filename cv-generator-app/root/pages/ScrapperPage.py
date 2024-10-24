@@ -18,4 +18,4 @@ st.title('Scrapper')
 url = st.text_input("Entrez l'url de la page")
 
 if st.button('Scrap'):
-    st.write(processing.process_jobs_infos(Scrapper.get_jobs_infos(url)))
+    st.json(processing.process_jobs_infos(Scrapper.get_jobs_infos(url)))
