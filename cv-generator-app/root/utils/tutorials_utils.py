@@ -13,20 +13,17 @@ def create_tutorial(fields):
 
     # Première étape
     if st.session_state.step == 0:
-        col1, col2, col3, col4, col5, col6 = st.columns(6)
-        with col1:
-            if st.button("Passer le tutoriel", id("skip_tutorial")):
-                st.page_link("http://www.google.com", label="Google", icon="🌎")
-
-        with col6:
-            if st.button("Commencer le tutoriel", id("start_tutorial")):
+        with st.empty():
+            if st.button("Commencer le tutoriel"):
                 next_step()
                 progress.progress((st.session_state.step) / (len(fields)))  # Met à jour la jauge
-                st.sidebar.write(st.session_state.step)
                 st.session_state.button_pressed = True
+                st.write("")
 
     # Les autres étapes
     if 0 < st.session_state.step:
+        if st.session_state.step > len(fields) - 1:
+            pass
         col1, col2, col3, col4, col5, col6 = st.columns(6)
         with col1:
             if st.button("Étape précédente", id("previous_step")):
@@ -34,21 +31,21 @@ def create_tutorial(fields):
                 st.session_state.button_pressed = True
 
         with col6:
-            if st.session_state.step != len(fields):
+            if st.session_state.step == len(fields) - 1:
+                next_step()
+                st.session_state.button_pressed = True
+                if st.button("Fin du tutoriel", id("end_tutorial")):
+                    reset_tutorial()
+            else:
                 if st.button("Étape suivante", id("next_step")):
                     next_step()
                     st.session_state.button_pressed = True
 
-            else:
-                st.session_state.button_pressed = True
-                if st.button("Fin du tutoriel", id("end_tutorial")):
-                    return
             display_step(progress, fields)
 
         if st.session_state.button_pressed is True:
             if st.session_state.step != 0:
                 display_texts(fields, add_step=-1)
-                st.sidebar.write(st.session_state.step)
                 st.session_state.button_pressed = False
 
 

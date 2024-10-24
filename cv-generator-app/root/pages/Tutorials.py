@@ -1,4 +1,6 @@
 from root.utils.PageCreator import PageCreator
+from root.utils.tutorials_utils import create_tutorial
+
 import extra_streamlit_components as stx
 
 import streamlit as st
@@ -20,12 +22,14 @@ features = {
 }
 
 chosen_id = stx.tab_bar(data=[
-    stx.TabBarItemData(id=int(idx), title=features[idx][0], description="")
+    stx.TabBarItemData(id=idx, title=features[idx][0], description="")
     for idx in features.keys()
 ], default=1)
 
-st.warning("Mode sélectionné : " + features[chosen_id][0]) # Titre
-# st.info(features[chosen_id][1]) # Description
+int_chosen_id = int(chosen_id)
+
+st.warning("Tutoriel sélectionné : " + features[int_chosen_id][0]) # Titre
+st.info(features[int_chosen_id][1])  # Description
 #
 # st.session_state.selected_tab = features[chosen_id][0]
 
@@ -60,4 +64,4 @@ tutorial_steps = {
     ]
 }
 
-page.create_tutorial(tutorial_steps)
+create_tutorial(tutorial_steps)
