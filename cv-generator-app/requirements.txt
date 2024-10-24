@@ -1,2 +1,5 @@
-extra_streamlit_components==0.1.71
+beautifulsoup4==4.12.3
+pypdf==5.0.1
 streamlit==1.39.0
+streamlit_pdf_viewer==0.0.18
+extra_streamlit_components==0.1.71
