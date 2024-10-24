@@ -52,3 +52,25 @@ class Scrapper:
         return infos
 
 
+    @staticmethod
+    def get_list_jobs(url):
+        test = '//div[@id="jobsearch-JapanPage"]/div/div[5]/div/div/div[5]/div'
+
+        options = Options()
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option("useAutomationExtension", False)
+
+        driver = webdriver.Chrome(options=options)
+        driver.get(url)
+
+        jobs = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, test)))
+        jobs_list = jobs.find_elements(By.TAG_NAME, "tbody")
+        tmp = []
+        for job in jobs_list:
+            infos = job.text.split("\n")
+
+            tmp.append({'poste': infos[0], 'entreprise': infos[1], 'lien': job.find_elements(By.TAG_NAME, "a")[0].get_attribute("href")})
+
+        driver.close()
+        return tmp

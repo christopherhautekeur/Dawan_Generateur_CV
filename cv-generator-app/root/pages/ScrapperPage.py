@@ -19,3 +19,7 @@ url = st.text_input("Entrez l'url de la page")
 
 if st.button('Scrap'):
     st.json(processing.process_jobs_infos(Scrapper.get_jobs_infos(url)))
+
+
+if st.button('Liste des offres'):
+    st.write(Scrapper.get_list_jobs("https://fr.indeed.com/jobs?q=Developpeur&l=Lille+%2859%29&vjk=dc7d2e98b81558f6"))
