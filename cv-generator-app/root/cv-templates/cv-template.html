@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV de {{name}}</title>
+</head>
+<body>
+    <div class="container">
+        <h1>{{name}}</h1>
+        <div class="contact-info">
+            <p>Email: {{email}} | Téléphone: {{phone}}</p>
+            <p>Adresse: {{address}}</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Profil</h2>
+            <p>{{experience-line}}</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Expérience Professionnelle</h2>
+            <ul>
+                {{experiences}}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Compétences</h2>
+            <ul>
+                <li>Langages : {{codingLanguages}}</li>
+                <li>Frameworks : {{frameworks}}</li>
+                <li>Outils : {{outils}}</li>
+                <li>Langues : {{languages}}</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Formation</h2>
+            <ul>
+                {{formations}}
+            </ul>
+        </div>
+        <div class="section">
+            <h2 class="section-title">Centres d'intérêt</h2>
+            <ul>
+                {{hobbies}}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

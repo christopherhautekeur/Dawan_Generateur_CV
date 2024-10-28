@@ -6,3 +6,5 @@ page = PageCreator(
     "Home",
     "- Bienvenue sur le Générateur de CV de Dawan ! Cette application permet de générer des CV/lettres de motivations et de proposer des offres pertinentes selon vos recherches.",
 )
+
+

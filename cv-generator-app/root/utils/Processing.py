@@ -3,7 +3,8 @@ from nltk.tokenize import word_tokenize
 from openai import OpenAI
 import string
 
-PATH = ".\cv-generator-app\config"
+PATH = "./config"
+
 
 class Processing:
     def __init__(self):
@@ -139,3 +140,111 @@ class Processing:
             tokens.append(word_tokenize(info.lower()))
         tokens = [token for token in tokens[0] if token not in self.stop_words]  # Remove stopwords
         return tokens
+
+    def generate_json(self, cv_content):
+        response = self.client.chat.completions.create(
+            model="gpt-3.5-turbo-0125",
+            messages=[
+                {
+                    "role": "system",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": """Tu vas tout simplement remplir le json correspondant via le texte que je vais te donner. Si tu ne trouves pas de données correspondantes pour une clé donnée, laisse la valeur vide ou le tableau vide. Le format du json est de la forme suivante : 
+                                    {
+                                        "name"  : "",
+                                        "email" : "",
+                                        "phone" : "",
+                                        "experience-line" : "",
+                                        "experiences" : [],
+                                        "address" : "", 
+                                        "formations" : [],
+                                        "codingLanguages" : [],
+                                        "soft-skills" : [],
+                                        "languages" : [],
+                                        "hobbies" : [],
+                                        "outils" : [], 
+                                        "frameworks" : []
+                                    }"""
+                        }
+                    ]
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text":
+                            """
+                                John Doe
+                                Email: john.doe@example.com | Téléphone: 123-456-7890
+                                
+                                Adresse: 123 Rue de Paris, 75001 Paris, France
+                                
+                                Profil
+                                5 ans d'expérience en développement logiciel chez XYZ
+                                
+                                Expérience Professionnelle
+                                Développeur Backend - Entreprise XYZ, Paris (2020 - Présent)
+                                Ingénieur Logiciel - Entreprise ABC, Lyon (2018 - 2020)
+                                Stagiaire Développeur - Startup 123, Toulouse (2017 - 2018)
+                                Compétences
+                                Langages : Python, JavaScript, HTML, CSS
+                                Frameworks : Django, Flask, React
+                                Outils : Git, Docker, Jenkins
+                                Langues : Français (natif), Anglais (courant)
+                                Formation
+                                Master en Informatique - Université de Paris (2016)
+                                Licence en Informatique - Université de Lyon (2014)
+                                Centres d'intérêt
+                                Cyclisme, Sport, Informatique                             
+                            """
+                        }
+                    ]
+                },
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "text": """{
+                                    "name": "John Doe",
+                                    "email": "john.doe@example.com",
+                                    "phone": "123-456-7890",
+                                    "experience-line": "5 ans d'expérience en développement logiciel chez XYZ",
+                                    "experiences": [["Développeur Backend", "Entreprise XYZ, Paris (2020 - Présent)"],
+                                                    ["Ingénieur Logiciel", "Entreprise ABC, Lyon (2018 - 2020)"],
+                                                    ["Stagiaire Développeur", "Startup 123, Toulouse (2017 - 2018)"]],
+                                    "address": "123 Rue de Paris, 75001 Paris, France",
+                                    "formations": [["Master en Informatique", "Université de Paris (2016)"],
+                                                    ["Licence en Informatique", "Université de Lyon (2014)"]],
+                                    "codingLanguages": ["Python", "JavaScript", "HTML", "CSS"],
+                                    "soft-skills": ["Positivité", "Travail d'équipe", "Gestion de projets agiles"],
+                                    "languages": ["Français (natif)", "Anglais (courant)"],
+                                    "hobbies": ["Cyclisme", "Sport", "Informatique"],
+                                    "outils": ["Git", "Docker", "Jenkins"],
+                                    "frameworks": ["Django, Flask, React"],
+                                }""",
+                            "type": "text"
+                        }
+                    ]
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": cv_content,
+                        }
+                    ]
+                }
+            ],
+            temperature=1,
+            max_tokens=2048,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0,
+            response_format={
+                "type": "text"
+            }
+        )
+        return response.choices[0].message.content
