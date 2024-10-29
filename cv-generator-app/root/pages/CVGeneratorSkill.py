@@ -1,6 +1,5 @@
 from root.utils.PageCreator import PageCreator
 import streamlit as st
-from streamlit_pdf_viewer import pdf_viewer
 from pypdf import PdfReader
 import json
 from root.utils.Scrapper import Scrapper
