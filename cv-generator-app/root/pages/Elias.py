@@ -8,14 +8,17 @@ from pyhtml2pdf import converter
 import os
 import tempfile
 
+
 def fichier_html(docx):
     inzip = zipfile.ZipFile(docx)
-    soup=BeautifulSoup(inzip.read("word/document.xml").decode('utf-8','ignore'),'lxml-xml')
+    soup = BeautifulSoup(inzip.read("word/document.xml").decode('utf-8', 'ignore'), 'lxml-xml')
     return soup.prettify()
+
 
 def fichier_xml(docx):
     inzip = zipfile.ZipFile(docx)
     return inzip.read("word/document.xml")
+
 
 def html_to_pdf(file_html):
     temp_dir = tempfile.mkdtemp()
@@ -38,6 +41,7 @@ page = PageCreator(
 uploaded_file = st.file_uploader("Choose a file", type=('docx'))
 uploaded_file_pdf = st.file_uploader("Choose a file", type=('pdf'), key='pdf')
 uploaded_file_html = st.file_uploader("Choose a file", type=('html'), key='html')
+
 if uploaded_file_html is not None :
     if "html_file" not in st.session_state and "f" not in st.session_state:
         html_to_pdf(uploaded_file_html)
@@ -68,11 +72,14 @@ if uploaded_file is not None:
                 file_name="fichier.html",
                 mime="html"
             )
+    
 if uploaded_file_pdf is not None:
     st.write("pdf")
     bytes_data = uploaded_file_pdf.read()
     pdf_viewer(bytes_data)
     reader = PdfReader(uploaded_file_pdf)
     pa = reader.pages[0]
-    x= pa.extract_text(extraction_mode="layout")
+
+    x = pa.extract_text(extraction_mode="layout")
+
     st.write(x)

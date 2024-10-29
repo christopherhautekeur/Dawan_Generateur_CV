@@ -10,5 +10,6 @@ pg = st.navigation([
         st.Page(path + "ScrapperPage.py", title="Scrapper"),
         st.Page(path + "Elias.py", title="Test Elias"),
         st.Page(path + "CVGeneratorSkill.py", title="Générer skill CV"),
+
 ])
 pg.run()
