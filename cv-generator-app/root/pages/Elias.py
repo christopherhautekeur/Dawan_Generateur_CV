@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 from pyhtml2pdf import converter
 import os
 import tempfile
-from io import BytesIO
 
 def fichier_html(docx):
     inzip = zipfile.ZipFile(docx)
