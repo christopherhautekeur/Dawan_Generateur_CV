@@ -62,6 +62,13 @@ class Scrapper:
 
     @staticmethod
     def get_list_jobs(jobboard, job, location):
+        """
+        Get list of jobs
+        :param jobboard:
+        :param job:
+        :param location:
+        :return: list of jobs
+        """
 
         base_urls = {
             "indeed": f"https://fr.indeed.com/jobs?q={job}&l={location}",
@@ -69,7 +76,7 @@ class Scrapper:
         }
 
         options = Options()
-        # options.add_argument("--window-position=-10000,-10000")
+        options.add_argument("--window-position=-10000,-10000")
         options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option("useAutomationExtension", False)

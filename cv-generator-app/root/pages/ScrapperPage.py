@@ -25,7 +25,7 @@ with st.container(border=True):
     row2 = st.columns([3,3,2])
     job = row1[0].text_input("Poste")
     location = row1[1].text_input("Lieu")
-    jobboard = row1[2].selectbox("JobBoard", ["indeed",])
+    jobboard = row1[2].selectbox("JobBoard", ["indeed",])  # Rajouter des jobboards
     if st.button('Rechercher'):
         if 'jobs_df' not in st.session_state:
             st.session_state['jobs_df'] = pd.DataFrame()
@@ -58,6 +58,8 @@ if 'jobs_df' in st.session_state:
 
     if st.button("Recuperer les infos du poste"):
         if len(selected_row) > 0:
+            # Affiche les infos du jobs selectionner
+            # TODO : Envoyer les infos dans la page suivante
             annonce = Scrapper.get_jobs_infos(st.session_state.get('jobs_df').iloc[selected_row[0]].lien)
             infos = processing.process_jobs_infos(annonce)
             st.json(infos)
