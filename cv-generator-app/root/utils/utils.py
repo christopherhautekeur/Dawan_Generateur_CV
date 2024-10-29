@@ -64,8 +64,4 @@ def generate_html_with_json(data_json, style):
     # Ajouter le style CSS
     cv_html += f"<style>{css}</style>"
 
-    # Afficher le template de CV
-    if st.button("Visualiser le CV"):
-        # st.code(cv_html)
-        st.components.v1.html(cv_html, height=800, scrolling=True)
     return cv_html

@@ -1,5 +1,6 @@
 from root.utils.PageCreator import PageCreator
 from root.utils.utils import generate_html_with_json
+import streamlit as st
 
 page = PageCreator(
     "Dawan - Utilisation d'un template pré-enregistré",
@@ -28,4 +29,8 @@ user_data = {
     "frameworks": ["Django, Flask, React"],
 }
 
-generate_html_with_json(user_data, "style1.css")
+cv_html = generate_html_with_json(user_data, "style1.css")
+# Afficher le template de CV
+if st.button("Visualiser le CV"):
+    # st.code(cv_html)
+    st.components.v1.html(cv_html, height=800, scrolling=True)
