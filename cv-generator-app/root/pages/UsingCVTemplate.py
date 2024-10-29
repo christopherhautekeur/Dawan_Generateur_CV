@@ -59,6 +59,6 @@ cv_html += f"<style>{css}</style>"
 
 # Afficher le template de CV
 if st.button("Visualiser le CV"):
-    st.code(cv_html)
+    # st.code(cv_html)
     st.components.v1.html(cv_html, height=800, scrolling=True)
 

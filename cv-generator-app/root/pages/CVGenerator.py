@@ -1,10 +1,12 @@
 from root.utils.PageCreator import PageCreator
-import streamlit as st
-import re
 from streamlit_pdf_viewer import pdf_viewer
 from pypdf import PdfReader
 from root.utils.Processing import Processing
+from root.utils.utils import valid_name, valid_email, valid_address, valid_zip_code, valid_phone_number
+
 import json
+import streamlit as st
+
 
 page = PageCreator(
     "Dawan Générateur de CV - CV",
@@ -38,35 +40,54 @@ if radio == "Formulaire":  # Formulaire
             ville = st.text_input("Ville")
 
         if st.form_submit_button("Soumettre"):
-            # Vérifier que le prénom/nom/ville contient que des lettres
+            # Vérifier que le prénom et nom contiennent que des lettres
+            if not valid_name(prenom):
+                st.error("Veuillez entrer un prénom valide")
+
+            if not valid_name(nom):
+                st.error("Veuillez entrer un nom valide")
 
             # Vérifier le bon format de l'adresse email
+            if not valid_email(email):
+                st.error("Veuillez entrer une adresse email valide")
 
             # Vérifier le bon format du numéro
+            if not valid_phone_number(telephone):
+                st.error("Veuillez entrer un numéro de téléphone valide")
+
+            # Vérifier le bon format de l'adresse
+            if not valid_address(adresse):
+                st.error("Veuillez entrer une adresse valide")
+
+            # Vérifier le bon format de l'adresse
+            if not valid_address(ville):
+                st.error("Veuillez entrer une ville valide")
 
             # Vérifier le bon format du code postal
+            if not valid_zip_code(code_postal):
+                st.error("Veuillez entrer un code postal valide")
 
             # Enregistrer les données dans un fichier JSON
+            if valid_name(prenom) and valid_name(nom) and valid_email(email) and valid_phone_number(telephone) and valid_address(adresse) and valid_zip_code(code_postal) and valid_address(ville):
+                st.success("CV envoyé")
 
-            st.success("CV envoyé")
+                st.session_state.user_data = {
+                    "name": nom + " " + prenom,
+                    "email": email,
+                    "phone": telephone,
+                    "experience-line": "",
+                    "experiences": [],
+                    "address": adresse + ", " + code_postal + " " + ville,
+                    "formations": [],
+                    "codingLanguages": [],
+                    "soft-skills": [],
+                    "languages": [],
+                    "hobbies": [],
+                    "outils": [],
+                    "frameworks": [],
+                }
 
-            st.session_state.user_data = {
-                "name": nom + " " + prenom,
-                "email": email,
-                "phone": telephone,
-                "experience-line": "",
-                "experiences": [],
-                "address": adresse + ", " + code_postal + " " + ville,
-                "formations": [],
-                "codingLanguages": [],
-                "soft-skills": [],
-                "languages": [],
-                "hobbies": [],
-                "outils": [],
-                "frameworks": [],
-            }
-
-            st.json(st.session_state.user_data)
+                st.json(st.session_state.user_data)
 
 else:  # PDF
     uploaded_file_pdf = st.file_uploader("Choose a file", type='pdf', key='pdf')
@@ -86,4 +107,7 @@ else:  # PDF
             processing = Processing()
             generated_json = processing.generate_json(cv_content)
             # st.write(generated_json)
-            st.json(json.loads(generated_json))
+            try:
+                st.json(json.loads(generated_json))
+            except json.decoder.JSONDecodeError:
+                st.error("Le JSON est invalide. Veuillez réessayer.")
