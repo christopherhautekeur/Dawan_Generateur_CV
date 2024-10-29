@@ -3,8 +3,7 @@ from nltk.tokenize import word_tokenize
 from openai import OpenAI
 import string
 
-PATH = "./config"
-
+PATH = ".\config"
 
 class Processing:
     def __init__(self):
