@@ -77,4 +77,3 @@ Voici un exemple de CV généré par l'application :
 ## Licence
 
 Ce projet est sous licence MIT.
-```
