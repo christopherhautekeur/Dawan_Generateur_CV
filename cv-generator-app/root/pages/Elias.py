@@ -4,6 +4,10 @@ from streamlit_pdf_viewer import pdf_viewer
 from pypdf import PdfReader
 import zipfile
 from bs4 import BeautifulSoup
+from pyhtml2pdf import converter
+import os
+import tempfile
+
 
 def fichier_html(docx):
     inzip = zipfile.ZipFile(docx)
@@ -21,6 +25,20 @@ page = PageCreator(
 
 uploaded_file = st.file_uploader("Choose a file", type=('docx'))
 uploaded_file_pdf = st.file_uploader("Choose a file", type=('pdf'), key='pdf')
+uploaded_file_html = st.file_uploader("Choose a file", type=('html'), key='html')
+if uploaded_file_html is not None:
+    temp_dir = tempfile.mkdtemp()
+    path = os.path.join(temp_dir, uploaded_file_html.name)
+    with open(path, "wb") as tempf:
+        tempf.write(uploaded_file_html.read())
+    #f = tempfile.TemporaryFile()
+    converter.convert(f'{path}', "f.pdf" )
+    
+    # bytes_data = uploaded_file_pdf.read()
+    # pdf_viewer(bytes_data)
+    
+    
+
 if uploaded_file is not None:
     tmp = fichier_xml(uploaded_file)
     btn = st.download_button(
@@ -44,3 +62,4 @@ if uploaded_file_pdf is not None:
     pa = reader.pages[0]
     x= pa.extract_text(extraction_mode="layout")
     st.write(x)
+    
