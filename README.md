@@ -29,7 +29,7 @@ Avant de commencer, assurez-vous d'avoir installé les outils et modules suivant
 
    ```bash
    git clone https://github.com/christopherhautekeur/Dawan_Generateur_CV
-   cd cv-generator
+   cd cv-generator-app
    ```
 
 2. Installez les dépendances :
@@ -41,7 +41,6 @@ Avant de commencer, assurez-vous d'avoir installé les outils et modules suivant
 3. Lancez l'application avec Streamlit :
 
    ```bash
-   # A check
    streamlit run app.py
    ```
 
