@@ -109,6 +109,7 @@ if uploaded_file_pdf is not None:
         array= json.loads(st.session_state["info"])
         generated_json["soft-skills"] = array["softskills"]
         generated_json["codingLanguages"] = array["technologies"]
+        generated_json["outils"] =[]
         
         try:
             #Appelle l'IA uniquement si aucune n'a était crée ou le fichier est different

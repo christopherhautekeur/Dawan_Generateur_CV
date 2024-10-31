@@ -5,7 +5,7 @@ from root.utils.utils import footer
 
 page = PageCreator(
     "Dawan Générateur de CV - Home",
-    "Page d'accueil",
+    "Bieenvenue sur le générateur de CV",
     "Home",
     "- Bienvenue sur le Générateur de CV de Dawan ! Cette application permet de générer des CV/lettres de motivations et de proposer des offres pertinentes selon vos recherches.",
 )

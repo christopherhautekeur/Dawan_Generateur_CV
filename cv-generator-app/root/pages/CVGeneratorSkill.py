@@ -55,7 +55,7 @@ def check_checkbox(ret_json,sl,tl):
         
 page = PageCreator(
     "Cv Skill",
-    "Genere les skills correspondant entre l'utilisateur et l'url'"
+    "Genere les skills correspondant entre l'utilisateur et l'offre employée"
 )
 
 processing = Processing()
