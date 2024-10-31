@@ -113,12 +113,12 @@ if uploaded_file_pdf is not None:
         try:
             #Appelle l'IA uniquement si aucune n'a était crée ou le fichier est different
             if "cv_content" not in st.session_state:
-                g= generate_html_with_json(generated_json, "style1.css")
+                g= generate_html_with_json(generated_json, "style2.css")
                 st.session_state["html_file2"] = g
                 st.session_state["cv_content"] = cv_content
                 
             elif st.session_state["cv_content"] != cv_content:
-                g= generate_html_with_json(generated_json, "style1.css")
+                g= generate_html_with_json(generated_json, "style2.css")
                 st.session_state["html_file2"] = g
                 st.session_state["cv_content"] = cv_content
             
